@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ale’s Spells of Minor Miracles</title>
+  <meta name="description" content="Deck-ul digital de vrăji și reguli – Ale’s Spells of Minor Miracles" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unna:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    /* ---------------- Root tokens ---------------- */
+    :root{
+      /* Fantasy night sky */
+      --bg1:#0b0e1a; /* deep midnight */
+      --bg2:#20123a; /* purple nebula */
+      --accent-rose:#f08ac0; /* rose */
+      --accent-emerald:#43d19d; /* emerald */
+      --accent-gold:#ffd26a; /* gold */
+      --ink:#f7f4ef;         /* main text */
+      --ink-dim:#d9d3c8;     /* secondary */
+      --panel:#121523;       /* card */
+      --ring:rgba(255,210,106,.55);
+      --shadow:0 18px 40px rgba(0,0,0,.4);
+      --max:1200px;
+    }
+    html{scroll-behavior:smooth;scroll-padding-top:120px}
+    body{margin:0;color:var(--ink);background:
+      radial-gradient(1200px 700px at 80% 0%, rgba(67,209,157,.10), transparent 60%),
+      radial-gradient(900px 600px at 15% 10%, rgba(240,138,192,.12), transparent 60%),
+      linear-gradient(180deg, var(--bg2), var(--bg1));
+      font:16px/1.6 Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial}
+    a{color:inherit;text-decoration:none}
+
+    /* ---------------- Starfield layer ---------------- */
+    .stars{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;background-image:
+      radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.8) 40%, transparent 42%),
+      radial-gradient(2px 2px at 70% 20%, rgba(255,255,255,.8) 40%, transparent 42%),
+      radial-gradient(1.5px 1.5px at 40% 70%, rgba(255,255,255,.8) 40%, transparent 42%),
+      radial-gradient(1.5px 1.5px at 85% 65%, rgba(255,255,255,.8) 40%, transparent 42%),
+      radial-gradient(1px 1px at 10% 85%, rgba(255,255,255,.8) 40%, transparent 42%);
+      filter:drop-shadow(0 0 6px rgba(255,255,255,.25))}
+
+    /* ---------------- Topbar ---------------- */
+    .topbar{position:sticky;top:0;z-index:20;backdrop-filter:saturate(140%) blur(10px);
+      background:linear-gradient(180deg, rgba(6,7,15,.92), rgba(6,7,15,.65));
+      border-bottom:1px solid rgba(255,210,106,.25)}
+    .wrap{max-width:var(--max);margin:auto;padding:12px 18px;display:flex;gap:14px;align-items:center}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px}
+    .brand .gem{width:18px;height:18px;border-radius:50%;
+      background:conic-gradient(from 0deg, #ffd26a, #f2b05b, #ffd26a);
+      box-shadow:0 0 0 2px rgba(255,210,106,.45), 0 0 18px rgba(255,210,106,.35)}
+    nav{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
+    nav a{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,210,106,.28);color:var(--ink-dim)}
+    nav a:hover, nav a.active{border-color:var(--accent-gold);color:var(--ink);box-shadow:0 0 0 2px rgba(255,210,106,.2) inset}
+
+    /* ---------------- Sections ---------------- */
+    section{max-width:var(--max);margin:48px auto;padding:0 18px;position:relative;z-index:1}
+    h1,h2,h3{font-family:Unna, Georgia, serif}
+    h2{font-size:clamp(28px,4vw,40px);line-height:1.15;margin:0 0 14px}
+    #rules h2, #intro h2, #spells h2{
+      background:linear-gradient(135deg, #ba55d3 0%, #9370db 50%, #ffd26a 100%);
+      -webkit-background-clip:text;background-clip:text;
+      -webkit-text-fill-color:transparent;
+      filter:drop-shadow(0 2px 12px rgba(186,85,211,.3))}
+    p.lead{color:var(--ink-dim);font-size:18px}
+
+    /* ---------------- Parchment intro ---------------- */
+    .parchment{position:relative;border-radius:20px;padding:32px 28px;
+      background:
+        radial-gradient(400px 300px at 50% 0%, rgba(138,43,226,.15), transparent 70%),
+        radial-gradient(350px 250px at 10% 50%, rgba(75,0,130,.12), transparent 65%),
+        radial-gradient(300px 200px at 90% 80%, rgba(148,0,211,.1), transparent 60%),
+        linear-gradient(135deg, #1a0d2e 0%, #0f0820 50%, #1e0b3a 100%);
+      border:1px solid rgba(186,85,211,.4);
+      box-shadow:
+        var(--shadow),
+        0 0 30px rgba(138,43,226,.3),
+        0 0 60px rgba(138,43,226,.15),
+        0 0 0 1px rgba(186,85,211,.2) inset;
+      color:var(--ink);
+      position:relative;
+      overflow:hidden}
+    .parchment::before{
+      content:'';position:absolute;inset:0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(138,43,226,.03) 2px, rgba(138,43,226,.03) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(138,43,226,.03) 2px, rgba(138,43,226,.03) 4px);
+      pointer-events:none;opacity:.5}
+    .parchment::after{
+      content:'✨';position:absolute;top:20px;right:24px;font-size:32px;
+      opacity:.4;animation:twinkle 3s ease-in-out infinite}
+    @keyframes twinkle{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.6;transform:scale(1.1)}}
+    .parchment h1{font-size:clamp(32px,5.5vw,56px);margin:0 0 12px;
+      background:linear-gradient(135deg, #ffd26a 0%, #ba55d3 50%, #9370db 100%);
+      -webkit-background-clip:text;background-clip:text;
+      -webkit-text-fill-color:transparent;
+      filter:drop-shadow(0 2px 8px rgba(186,85,211,.4));
+      position:relative;z-index:1}
+    .parchment p{font-size:18px;line-height:1.7;position:relative;z-index:1}
+    .parchment p.lead{color:var(--accent-rose);font-weight:500}
+
+    /* ---------------- Rules ---------------- */
+    .rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+    .rule{
+      background:
+        radial-gradient(circle at top right, rgba(138,43,226,.08), transparent 60%),
+        linear-gradient(135deg, #1a0d2e 0%, #0f0820 100%);
+      border:1px solid rgba(186,85,211,.35);
+      border-radius:14px;padding:18px;color:var(--ink);
+      box-shadow:
+        var(--shadow),
+        0 0 20px rgba(138,43,226,.2),
+        0 0 0 1px rgba(138,43,226,.1) inset;
+      position:relative;overflow:hidden;
+      transition:all .3s ease}
+    .rule::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg, transparent, rgba(186,85,211,.6), transparent);
+      opacity:0;transition:opacity .3s ease}
+    .rule:hover{
+      transform:translateY(-2px);
+      border-color:rgba(186,85,211,.6);
+      box-shadow:
+        var(--shadow),
+        0 0 30px rgba(138,43,226,.4),
+        0 0 0 1px rgba(138,43,226,.2) inset}
+    .rule:hover::before{opacity:1}
+    .rule h3{margin:0 0 8px;font-size:18px;
+      color:var(--accent-gold);
+      text-shadow:0 0 10px rgba(255,210,106,.3)}
+    .rule p{margin:0;color:var(--ink-dim);line-height:1.6}
+
+    /* ---------------- Filter bar ---------------- */
+    .filters{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 22px}
+    .chip{padding:8px 13px;border-radius:999px;border:1px solid rgba(255,210,106,.28);
+      color:var(--ink-dim);cursor:pointer;user-select:none;
+      background:transparent;font:inherit;
+      transition:all .3s ease}
+    .chip:hover{border-color:var(--accent-gold);color:var(--ink);box-shadow:0 0 0 2px rgba(255,210,106,.2) inset}
+    .chip.active{border-color:var(--accent-gold);color:var(--ink);box-shadow:0 0 0 2px rgba(255,210,106,.2) inset}
+
+    /* ---------------- Grid ---------------- */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px}
+    @media (min-width:640px){.grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}}
+    .card{background:var(--panel);border:1px solid rgba(255,210,106,.35);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transform:translateZ(0);cursor:pointer;padding:0;color:inherit;text-align:left;width:100%;border:none}
+    .card figure{margin:0;aspect-ratio:3/4;display:grid;place-items:center;background:#0d0f12}
+    .card img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.02)}
+    .meta{padding:10px 12px;border-top:1px solid rgba(255,210,106,.25);display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .meta b{font-size:14px;font-family:Unna, Georgia, serif;font-weight:700;display:block}
+    .badge{display:none}
+
+    /* ---------------- Animations ---------------- */
+    @keyframes floatIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .card{animation:floatIn .6s ease both}
+    .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.45)}
+
+    footer{max-width:var(--max);margin:56px auto 80px;padding:0 18px;color:var(--ink-dim)}
+
+    /* ---------------- Lightbox ---------------- */
+    .lightbox{position:fixed;inset:0;display:none;place-items:center;background:rgba(10,11,18,.92);backdrop-filter:blur(8px);z-index:100;padding:20px}
+    .lightbox.open{display:grid}
+    .lb-content{position:relative;max-width:min(90vw,900px);width:100%;max-height:90vh;display:flex;flex-direction:column;gap:16px}
+    .lb-header{display:none}
+    .lb-title{font-family:Unna,serif;font-size:clamp(18px,3vw,28px);color:var(--ink);margin:0}
+    .lb-close{position:absolute;top:12px;right:12px;z-index:10;
+      width:40px;height:40px;border-radius:50%;border:1px solid rgba(186,85,211,.4);
+      background:linear-gradient(135deg, rgba(138,43,226,.2), rgba(75,0,130,.2));
+      color:var(--ink);cursor:pointer;display:grid;place-items:center;font-size:24px;
+      transition:all .3s ease;flex-shrink:0}
+    .lb-close:hover{background:linear-gradient(135deg, rgba(138,43,226,.4), rgba(75,0,130,.4));
+      border-color:rgba(186,85,211,.6);transform:rotate(90deg)}
+    .lb-image-container{position:relative;background:linear-gradient(135deg, #1a0d2e, #0f0820);
+      border:1px solid rgba(186,85,211,.4);border-radius:16px;overflow:hidden;
+      box-shadow:var(--shadow), 0 0 40px rgba(138,43,226,.3);
+      display:grid;place-items:center;max-height:calc(90vh - 100px)}
+    .lb-image-container img{width:100%;height:100%;object-fit:contain;display:block}
+    .lb-nav{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 12px;pointer-events:none}
+    .lb-nav button{pointer-events:auto;width:48px;height:48px;border-radius:50%;
+      border:1px solid rgba(186,85,211,.4);
+      background:linear-gradient(135deg, rgba(138,43,226,.3), rgba(75,0,130,.3));
+      backdrop-filter:blur(4px);color:var(--ink);cursor:pointer;
+      display:grid;place-items:center;font-size:24px;font-weight:bold;
+      transition:all .3s ease;opacity:.7}
+    .lb-nav button:hover{opacity:1;background:linear-gradient(135deg, rgba(138,43,226,.5), rgba(75,0,130,.5));
+      border-color:rgba(186,85,211,.6);transform:scale(1.1)}
+    .lb-footer{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}
+    .lb-category{display:none}
+    .lb-counter{color:var(--ink-dim);font-size:14px}
+    .lb-download{display:inline-flex;align-items:center;gap:6px;
+      padding:8px 16px;border-radius:8px;border:1px solid rgba(186,85,211,.4);
+      background:linear-gradient(135deg, rgba(138,43,226,.3), rgba(75,0,130,.3));
+      backdrop-filter:blur(4px);color:var(--ink);cursor:pointer;font-size:14px;
+      transition:all .3s ease;text-decoration:none}
+    .lb-download:hover{background:linear-gradient(135deg, rgba(138,43,226,.5), rgba(75,0,130,.5));
+      border-color:rgba(186,85,211,.6);transform:translateY(-2px);box-shadow:0 4px 12px rgba(138,43,226,.3)}
+
+    @media (max-width:640px){
+      .wrap{flex-direction:column;align-items:flex-start;gap:12px;padding:14px 16px}
+      .brand{font-size:15px}
+      nav{margin-left:0;gap:8px;width:100%}
+      nav a{flex:1;text-align:center;padding:10px 8px;font-size:14px}
+      .lightbox{padding:12px}
+      .lb-nav button{width:40px;height:40px;font-size:20px}
+      .lb-close{width:36px;height:36px;font-size:20px}
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand"><span class="gem" aria-hidden="true"></span> Ale’s Spells of Minor Miracles</div>
+      <nav aria-label="Principal">
+        <a href="#intro" class="active">Intro</a>
+        <a href="#rules">Rules</a>
+        <a href="#spells">Spells</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Intro -->
+  <section id="intro" aria-labelledby="intro-title">
+    <div class="parchment">
+      <h1 id="intro-title">La mulți ani, Ale! ✨</h1>
+      <p class="lead">
+        Bine ai venit în propriul tău grimoar digital, creat special pentru tine — o eroină modernă cu puteri magice, răbdare infinită și un simț al umorului demn de legendă.
+      </p>
+      <p class="lead">
+        Aici se adună 33 de vrăji jucăușe, un număr complet aleator, menite să aducă zâmbete, alinări și mici minuni de zi cu zi.
+      </p>
+      <p>
+        Alege vraja și trimite-o <strong>prin tărâmurile digitale</strong>. Invoc-o atunci când simți că ai nevoie — pentru un moment de calm, o aventură, sau pur și simplu ca să întorci norocul în favoarea ta.
+      </p>
+    </div>
+  </section>
+
+  <!-- Rules -->
+  <section id="rules" aria-labelledby="rules-title">
+    <div class="parchment">
+      <h2 id="rules-title">Rules of the Realm <span class="twinkle" aria-hidden="true">✨</span></h2>
+      <p>Fiecare carte ascunde o mică minune, o chemare sau o provocare. Doar <strong>eroina</strong> le poate stăpâni — iar squire‑ul Andrei, loial și un pic speriat, e sortit să răspundă.</p>
+      <p><strong>Invocarea</strong> are loc atunci când eroina descarcă o carte și o trimite prin tărâmurile digitale — fie mesaj, fie porumbel virtual. În clipa aceea, vraja prinde viață și universul tresare ușor.</p>
+      <p><strong>Efectul</strong> este simplu: se întâmplă exact ce scrie pe carte. Nici mai mult, nici mai puțin. Dacă ceva e ambiguu… înseamnă că eroina a avut dreptate. 😇</p>
+      <p>Există și o <strong>regulă nescrisă</strong>: folosește magia cu bunătate, umor și intenție luminoasă. Vrăjile nu sunt arme, ci mici alinări, glume și miracole cotidiene.</p>
+      <p>Și dacă niciuna nu pare potrivită, <em>„The Blank Scroll"</em> așteaptă cuminte o cerere nouă — una sinceră, cu sclipiri în ochi și zâmbet pe buze.</p>
+    </div>
+  </section>
+
+  <!-- Spells -->
+  <section id="spells" aria-labelledby="spells-title">
+    <div class="parchment">
+      <h2 id="spells-title">Spells <span class="twinkle" aria-hidden="true">✨</span></h2>
+
+      <div class="filters" role="tablist" aria-label="Filtrează după categorie">
+        <button class="chip active" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button class="chip" data-filter="Summon" role="tab">Summon</button>
+        <button class="chip" data-filter="Diplomacy" role="tab">Diplomacy</button>
+        <button class="chip" data-filter="Wrath" role="tab">Wrath</button>
+        <button class="chip" data-filter="Assistance" role="tab">Assistance</button>
+        <button class="chip" data-filter="Challenges" role="tab">Challenges</button>
+        <button class="chip" data-filter="Blessings" role="tab">Blessings</button>
+      </div>
+
+      <div id="grid" class="grid" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© <span id="y"></span> Ale’s Spells of Minor Miracles • Crafted with care.</p>
+  </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title">
+    <div class="lb-content">
+      <div class="lb-header">
+        <h3 id="lb-title" class="lb-title"></h3>
+      </div>
+      <div class="lb-image-container">
+        <button id="lb-close" class="lb-close" aria-label="Close lightbox">×</button>
+        <img id="lb-img" src="" alt="" />
+        <div class="lb-nav">
+          <button id="lb-prev" aria-label="Previous card">‹</button>
+          <button id="lb-next" aria-label="Next card">›</button>
+        </div>
+      </div>
+      <div class="lb-footer">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <span id="lb-category" class="lb-category"></span>
+          <span id="lb-counter" class="lb-counter"></span>
+        </div>
+        <a id="lb-download" class="lb-download" href="" download="">
+          <span>⬇</span> Download
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Highlight active nav link on scroll
+    const navLinks = [...document.querySelectorAll('nav a')];
+    const sections = navLinks.map(a=>document.querySelector(a.getAttribute('href')));
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          navLinks.forEach(l=>l.classList.remove('active'));
+          const id = '#' + e.target.id;
+          const active = navLinks.find(l=>l.getAttribute('href')===id);
+          active?.classList.add('active');
+        }
+      })
+    },{rootMargin:'-50% 0px -45% 0px', threshold:0});
+    sections.forEach(s=>io.observe(s));
+
+    // ---------------- Data (33 images in images/cards/01.png .. 33.png) ----------------
+    // Keep Casserole first in "All" view; others are shuffled per filter.
+    const spells = [
+      // 01–06 Summon
+      {t:"The Casserole Recovery Spell", c:"Summon", img:"images/cards/01.png"},
+      {t:"The Emergency Transport Spell", c:"Summon", img:"images/cards/02.png"},
+      {t:"The Errand Invocation", c:"Summon", img:"images/cards/03.png"},
+      {t:"The Loyal Companion Summoning", c:"Summon", img:"images/cards/04.png"},
+      {t:"The Shared Journey Spell", c:"Summon", img:"images/cards/05.png"},
+      {t:"The Grocery Retrieval Ritual", c:"Summon", img:"images/cards/06.png"},
+
+      // 07–12 Diplomacy
+      {t:"The Reconnection Charm", c:"Diplomacy", img:"images/cards/07.png"},
+      {t:"The Anti-Boredom Message Spell", c:"Diplomacy", img:"images/cards/08.png"},
+      {t:"The Messenger Owl Spell", c:"Diplomacy", img:"images/cards/09.png"},
+      {t:"The Tactical Small Talk Incantation", c:"Diplomacy", img:"images/cards/10.png"},
+      {t:"The Alliance Renewal Rite", c:"Diplomacy", img:"images/cards/11.png"},
+      {t:"The Unexpected Compliment Spell", c:"Diplomacy", img:"images/cards/12.png"},
+
+      // 13–17 Wrath
+      {t:"The Temporary Fury Spell", c:"Wrath", img:"images/cards/13.png"},
+      {t:"The Silence Seal", c:"Wrath", img:"images/cards/14.png"},
+      {t:"The Verbal Exile Curse", c:"Wrath", img:"images/cards/15.png"},
+      {t:"The Full Disconnect Spell", c:"Wrath", img:"images/cards/16.png"},
+      {t:"The Dark Energy Recharge Ritual", c:"Wrath", img:"images/cards/17.png"},
+
+      // 18–22 Assistance
+      {t:"The Technical Rescue Spell", c:"Assistance", img:"images/cards/18.png"},
+      {t:"The Comfort Brew Spell", c:"Assistance", img:"images/cards/19.png"},
+      {t:"The Council of Two", c:"Assistance", img:"images/cards/20.png"},
+      {t:"The Minor Fix Charm", c:"Assistance", img:"images/cards/21.png"},
+      {t:"The Shoulder Spell", c:"Assistance", img:"images/cards/22.png"},
+
+      // 23–29 Challenges (rose palette)
+      {t:"The Impossible Quest", c:"Challenges", img:"images/cards/23.png"},
+      {t:"The Patience Test Spell", c:"Challenges", img:"images/cards/24.png"},
+      {t:"The Social Challenge Charm", c:"Challenges", img:"images/cards/25.png"},
+      {t:"The Trivial Quest Spell", c:"Challenges", img:"images/cards/26.png"},
+      {t:"The Glory of the Absurd", c:"Challenges", img:"images/cards/27.png"},
+      {t:"The Random Quest Generator", c:"Challenges", img:"images/cards/28.png"},
+      {t:"The Blank Scroll", c:"Challenges", img:"images/cards/29.png"},
+
+      // 30–33 Blessings (golden palette)
+      {t:"The Lucky Coin Ritual", c:"Blessings", img:"images/cards/30.png"},
+      {t:"The Mood Restoration Charm", c:"Blessings", img:"images/cards/31.png"},
+      {t:"The Cosmic Alignment Spell", c:"Blessings", img:"images/cards/32.png"},
+      {t:"The Self-Care Conjuration", c:"Blessings", img:"images/cards/33.png"},
+    ];
+
+    const grid = document.getElementById('grid');
+    const chips = document.querySelectorAll('.chip');
+    const year = document.getElementById('y'); year.textContent = new Date().getFullYear();
+
+    // Lightbox state
+    let lightbox, lbImg, lbTitle, lbCategory, lbCounter, lbClose, lbPrev, lbNext, lbDownload;
+    let currentList = [];
+    let currentIndex = 0;
+
+    function openLightbox(index){
+      currentIndex = index;
+      const spell = currentList[currentIndex];
+      lbImg.src = spell.img;
+      lbImg.alt = spell.t + ' — ' + spell.c;
+      lbCounter.textContent = (currentIndex + 1) + ' / ' + currentList.length;
+      lbDownload.href = spell.img;
+      lbDownload.download = spell.t + '.png';
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(){
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function nextCard(){
+      currentIndex = (currentIndex + 1) % currentList.length;
+      openLightbox(currentIndex);
+    }
+
+    function prevCard(){
+      currentIndex = (currentIndex - 1 + currentList.length) % currentList.length;
+      openLightbox(currentIndex);
+    }
+
+    function initLightbox(){
+      lightbox = document.getElementById('lightbox');
+      lbImg = document.getElementById('lb-img');
+      lbTitle = document.getElementById('lb-title');
+      lbCategory = document.getElementById('lb-category');
+      lbCounter = document.getElementById('lb-counter');
+      lbClose = document.getElementById('lb-close');
+      lbPrev = document.getElementById('lb-prev');
+      lbNext = document.getElementById('lb-next');
+      lbDownload = document.getElementById('lb-download');
+
+      lbClose.addEventListener('click', closeLightbox);
+      lbNext.addEventListener('click', nextCard);
+      lbPrev.addEventListener('click', prevCard);
+      lightbox.addEventListener('click', function(e){ if(e.target === lightbox) closeLightbox(); });
+      window.addEventListener('keydown', function(e){
+        if(!lightbox.classList.contains('open')) return;
+        if(e.key === 'Escape') closeLightbox();
+        if(e.key === 'ArrowRight') nextCard();
+        if(e.key === 'ArrowLeft') prevCard();
+      });
+    }
+
+    function shuffle(arr){
+      for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}
+      return arr;
+    }
+
+    function render(filter='all'){
+      grid.innerHTML='';
+      let list = spells.slice();
+      if(filter!=='all') list = list.filter(s=>s.c===filter);
+
+      if(filter==='all'){
+        const first = list.find(s=>s.t==="The Casserole Recovery Spell");
+        const rest = list.filter(s=>s!==first);
+        shuffle(rest);
+        list = [first, ...rest];
+      } else {
+        shuffle(list);
+      }
+
+      currentList = list;  // Store for lightbox navigation
+      const frag = document.createDocumentFragment();
+      list.forEach((s, idx)=>{
+        const btn = document.createElement('button');
+        btn.className='card';
+        btn.type = 'button';
+        btn.style.animationDelay = (idx*18)+'ms';
+        btn.innerHTML = `
+          <figure><img loading="lazy" alt="${s.t} — ${s.c}" src="${s.img}"></figure>
+        `;
+        btn.addEventListener('click', () => openLightbox(idx));
+        frag.appendChild(btn);
+      });
+      grid.appendChild(frag);
+    }
+
+    render('all');
+    chips.forEach(ch=>{
+      ch.addEventListener('click',()=>{
+        chips.forEach(x=>x.classList.remove('active'));
+        ch.classList.add('active');
+        render(ch.dataset.filter);
+      })
+    });
+
+    // Initialize lightbox after DOM is loaded
+    initLightbox();
+  </script>
+</body>
+</html>
